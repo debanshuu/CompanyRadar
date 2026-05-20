@@ -48,13 +48,22 @@ body {
 }
 .creator-badge {
   position: fixed;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
 
-  color: #6b6a72;
-  font-size: 13px;
-
   z-index: 9999;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #c8f04a;
+  font-size: 14px;
+  font-weight: 500;
 }
 /* ── Header ────────────────────────────────── */
 .header {
