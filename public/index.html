@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompanyRadar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="0" y="10" width="4" height="8" fill="currentColor" opacity="0.4"/>
+          <rect x="7" y="5" width="4" height="13" fill="currentColor" opacity="0.7"/>
+          <rect x="14" y="0" width="4" height="18" fill="currentColor"/>
+        </svg>
+      </div>
+      <span class="logo-text">CompanyRadar</span>
+    </div>
+    <nav class="header-nav">
+      <span class="nav-tag">Business Intelligence Platform</span>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-content">
+        <p class="hero-eyebrow">AI-Powered Analysis</p>
+        <h1 class="hero-title">Deep intelligence on<br><em>any company.</em></h1>
+        <p class="hero-sub">Enter a company name to instantly generate a comprehensive business intelligence report — SWOT analysis, competitive landscape, risk assessment, and more.</p>
+
+        <div class="search-wrap">
+          <div class="search-box" id="searchBox">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none">
+              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+              <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              id="companyInput"
+              placeholder="Company name — e.g. Apple, Tesla, Spotify"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="analyzeBtn" onclick="analyze()">
+              Run Analysis
+              <svg viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <div id="error" class="error hidden"></div>
+          <p class="search-hint">Powered by Gemini AI · News API · Market Data</p>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="stat-card"><span class="stat-label">Data Sources</span><span class="stat-value">3</span></div>
+        <div class="stat-card"><span class="stat-label">Analysis Modules</span><span class="stat-value">7</span></div>
+        <div class="stat-card"><span class="stat-label">Avg. Time</span><span class="stat-value">~8s</span></div>
+      </div>
+    </section>
+
+    <div id="loading" class="loading hidden">
+      <div class="loading-inner">
+        <div class="loading-track"><div class="loading-bar"></div></div>
+        <div class="loading-steps">
+          <span class="step">Fetching news</span>
+          <span class="step-sep">→</span>
+          <span class="step">Searching web</span>
+          <span class="step-sep">→</span>
+          <span class="step">Gemini analysis</span>
+          <span class="step-sep">→</span>
+          <span class="step">Market data</span>
+        </div>
+        <p class="loading-label">Analyzing <strong id="loadingCompany"></strong></p>
+      </div>
+    </div>
+
+    <div id="results" class="results hidden">
+
+      <div class="results-header">
+        <div class="results-title-group">
+          <p class="results-eyebrow">Intelligence Report</p>
+          <h2 class="results-company" id="resultsCompanyName"></h2>
+        </div>
+        <div class="results-badge">
+          <span class="badge-dot"></span>
+          Analysis complete
+        </div>
+      </div>
+
+      <div class="section-grid">
+        <div class="card card-summary">
+          <p class="card-label">Company Overview</p>
+          <p id="summary" class="summary-text"></p>
+        </div>
+        <div class="card card-competitors">
+          <p class="card-label">Competitors</p>
+          <div id="competitors" class="comp-list"></div>
+        </div>
+      </div>
+
+      <div id="stockCard" class="card card-stock hidden">
+        <p class="card-label" id="stockTickerLabel">Market Performance</p>
+        <div class="chart-container">
+          <canvas id="stockChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card card-swot">
+        <p class="card-label">SWOT Analysis</p>
+        <div class="swot-grid">
+          <div class="swot-cell s">
+            <div class="swot-header"><span class="swot-dot"></span><span class="swot-tag">Strengths</span></div>
+            <ul id="strengths"></ul>
+          </div>
+          <div class="swot-cell w">
+            <div class="swot-header"><span class="swot-dot"></span><span class="swot-tag">Weaknesses</span></div>
+            <ul id="weaknesses"></ul>
+          </div>
+          <div class="swot-cell o">
+            <div class="swot-header"><span class="swot-dot"></span><span class="swot-tag">Opportunities</span></div>
+            <ul id="opportunities"></ul>
+          </div>
+          <div class="swot-cell t">
+            <div class="swot-header"><span class="swot-dot"></span><span class="swot-tag">Threats</span></div>
+            <ul id="threats"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="card card-growth">
+          <p class="card-label">Growth Opportunities</p>
+          <div id="growth" class="growth-list"></div>
+        </div>
+        <div class="card card-risk">
+          <p class="card-label">Risk Assessment</p>
+          <p id="risk" class="risk-text"></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
