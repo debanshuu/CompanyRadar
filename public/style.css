@@ -46,7 +46,16 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+.creator-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 
+  color: #6b6a72;
+  font-size: 13px;
+
+  z-index: 9999;
+}
 /* ── Header ────────────────────────────────── */
 .header {
   display: flex;
