@@ -32,3 +32,7 @@ Enter any company name and get a comprehensive BI report in ~8 seconds:
 | Deployment | Render |
 
 ---
+
+# Screenshots:
+(ss.jpg)
+
