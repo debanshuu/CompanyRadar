@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
+const { sendConfirmationEmail } = require('../utils/mailer');
 const router = express.Router();
 
 // ── SIGNUP ──
@@ -18,6 +18,7 @@ router.post('/signup', async (req, res) => {
     // Create new user
     const user = new User({ name, username, email, password });
     await user.save();
+    await sendConfirmationEmail(user.name, user.email);
 
     // Generate token
     const token = jwt.sign(
