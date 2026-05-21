@@ -27,7 +27,6 @@ async function analyze() {
     if (!response.ok) throw new Error(data.error);
 
     renderResults(company, data.analysis, data.stockData);
-    saveToHistory(company);
 
 
   } catch (error) {
@@ -148,67 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('companyInput').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') analyze();
   });
-  renderHistory();
 });
-//Search History
-const HISTORY_KEY = 'bizzai_search_history';
-const MAX_HISTORY = 10;
 
-function saveToHistory(company) {
-  let history = getHistory();
-  history = history.filter(h => h.company.toLowerCase() !== company.toLowerCase());
-  history.unshift({ company, timestamp: Date.now() });
-  if (history.length > MAX_HISTORY) history = history.slice(0, MAX_HISTORY);
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  renderHistory();
-}
 
-function getHistory() {
-  try {
-    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
-  } catch { return []; }
-}
-
-function clearHistory() {
-  localStorage.removeItem(HISTORY_KEY);
-  renderHistory();
-}
-
-function renderHistory() {
-  const history = getHistory();
-  const wrap = document.getElementById('historyWrap');
-  const list = document.getElementById('historyList');
-  if (!wrap || !list) return;
-
-  if (history.length === 0) {
-    wrap.classList.add('hidden');
-    return;
-  }
-
-  wrap.classList.remove('hidden');
-  list.innerHTML = history.map(h => `
-    <button class="history-item" onclick="runFromHistory('${h.company.replace(/'/g, "\\'")}')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-      </svg>
-      <span class="history-name">${h.company}</span>
-      <span class="history-time">${timeAgo(h.timestamp)}</span>
-    </button>
-  `).join('');
-}
-
-function runFromHistory(company) {
-  document.getElementById('companyInput').value = company;
-  analyze();
-}
-
-function timeAgo(ts) {
-  const diff = Date.now() - ts;
-  const mins = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  return `${days}d ago`;
-}
