@@ -46,26 +46,24 @@ async function fetchNews(company) {
 //FETCH STOCK
 async function fetchStockData(ticker) {
   if (!ticker || ticker === 'N/A') return null;
-  
+
   try {
-    const response = await axios.get('https://www.alphavantage.co/query', {
+    const response = await axios.get('https://api.twelvedata.com/time_series', {
       params: {
-        function: 'TIME_SERIES_DAILY',
         symbol: ticker,
-        apikey: process.env.ALPHA_VANTAGE_KEY 
+        interval: '1day',
+        outputsize: 10,
+        apikey: process.env.TWELVE_DATA_KEY
       }
     });
-
-    const timeSeries = response.data['Time Series (Daily)'];
-    if (!timeSeries) {
-  console.log('Stock API response:', JSON.stringify(response.data));
-  return null;
-}
-
-    //last 10 days of closing prices
-    const dates = Object.keys(timeSeries).slice(0, 10).reverse();
-    const prices = dates.map(date => parseFloat(timeSeries[date]['4. close']));
-
+    const data = response.data;
+    if (data.status === 'error' || !data.values) {
+      console.log('Twelve Data response:', JSON.stringify(data));
+      return null;
+    }
+    const values = [...data.values].reverse();
+    const dates = values.map(v => v.datetime);
+    const prices = values.map(v => parseFloat(v.close));
     return { dates, prices };
   } catch (error) {
     console.error('Stock API Error:', error.message);
