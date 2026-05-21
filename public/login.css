@@ -1,0 +1,196 @@
+/* ── Reset ─────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #f8f7f4;
+  --surface:   #ffffff;
+  --border:    #e8e6e1;
+  --border2:   #d4d1ca;
+  --text:      #1a1917;
+  --text2:     #6b6860;
+  --text3:     #9e9b96;
+  --accent:    #1a56db;
+  --error:     #b91c1c;
+  --error-bg:  #fef2f2;
+  --error-bdr: #fecaca;
+  --success:     #166534;
+  --success-bg:  #f0fdf4;
+  --success-bdr: #bbf7d0;
+  --radius-sm: 6px;
+  --radius:    12px;
+  --shadow:    0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Auth Container ────────────────────────── */
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Brand ─────────────────────────────────── */
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.logo-icon {
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* ── Card ──────────────────────────────────── */
+.auth-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Title ─────────────────────────────────── */
+.auth-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.auth-sub {
+  font-size: 0.9rem;
+  color: var(--text2);
+  margin-top: -12px;
+}
+
+/* ── Form ──────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text2);
+}
+
+input {
+  background: var(--bg);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+}
+
+input::placeholder { color: var(--text3); }
+
+/* ── Button ────────────────────────────────── */
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  width: 100%;
+  margin-top: 4px;
+}
+
+button:hover { background: #1648c0; }
+button:active { transform: scale(0.99); }
+button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+/* ── Switch ────────────────────────────────── */
+.auth-switch {
+  font-size: 0.85rem;
+  color: var(--text2);
+  text-align: center;
+}
+
+.auth-switch a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-switch a:hover { text-decoration: underline; }
+
+/* ── Error / Success ───────────────────────── */
+.error {
+  font-size: 0.85rem;
+  color: var(--error);
+  background: var(--error-bg);
+  border: 1px solid var(--error-bdr);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.success {
+  font-size: 0.85rem;
+  color: var(--success);
+  background: var(--success-bg);
+  border: 1px solid var(--success-bdr);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Utilities ─────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 480px) {
+  .auth-card { padding: 24px; }
+  .auth-container { padding: 16px; }
+}
