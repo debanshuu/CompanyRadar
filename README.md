@@ -34,5 +34,4 @@ Enter any company name and get a comprehensive BI report in ~8 seconds:
 ---
 
 # Screenshots:
-(ss.jpg)
-
+![CompanyRadar](ss.jpg)
