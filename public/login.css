@@ -39,7 +39,20 @@ body {
   justify-content: center;
   -webkit-font-smoothing: antialiased;
 }
-
+.creator-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 28px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  z-index: 50;
+}
 /* ── Auth Container ────────────────────────── */
 .auth-container {
   width: 100%;

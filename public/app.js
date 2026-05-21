@@ -1,3 +1,15 @@
+function getToken() { return localStorage.getItem('token'); }
+function getUser() { return JSON.parse(localStorage.getItem('user') || 'null'); }
+
+if (!getToken() || !getUser()) {
+  window.location.href = '/login.html';
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = '/login.html';
+}
 let currentChart = null;
 async function analyze() {
   const input = document.getElementById('companyInput');
@@ -18,7 +30,7 @@ async function analyze() {
     const response = await fetch('/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${getToken()}`
     },
       body: JSON.stringify({ company })
     });

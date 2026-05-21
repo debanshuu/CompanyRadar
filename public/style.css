@@ -602,5 +602,30 @@ input::placeholder { color: var(--text3); }
   .results-header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
+.user-name {
+  font-size: 0.85rem;
+  color: var(--text2);
+}
+
+.logout-btn {
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.logout-btn:hover {
+  background: var(--surface);
+  color: var(--text);
+}
   

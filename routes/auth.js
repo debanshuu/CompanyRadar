@@ -7,21 +7,21 @@ const router = express.Router();
 // ── SIGNUP ──
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
-      return res.status(400).json({ error: 'Email already registered.' });
+      return res.status(400).json({ error: 'Email or username already taken.' });
     }
 
     // Create new user
-    const user = new User({ name, email, password });
+    const user = new User({ name, username, email, password });
     await user.save();
 
     // Generate token
     const token = jwt.sign(
-      { userId: user._id, name: user.name, email: user.email },
+      { userId: user._id, name: user.name, username: user.username, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -29,7 +29,7 @@ router.post('/signup', async (req, res) => {
     res.status(201).json({
       success: true,
       token,
-      user: { name: user.name, email: user.email }
+      user: { name: user.name, username: user.username, email: user.email }
     });
 
   } catch (error) {
@@ -40,10 +40,10 @@ router.post('/signup', async (req, res) => {
 // ── LOGIN ──
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // Find user
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ error: 'Invalid email or password.' });
     }
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { userId: user._id, name: user.name, email: user.email },
+      { userId: user._id, name: user.name, username: user.username, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -64,12 +64,11 @@ router.post('/login', async (req, res) => {
     res.json({
       success: true,
       token,
-      user: { name: user.name, email: user.email }
+      user: { name: user.name, username: user.username, email: user.email }
     });
 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 module.exports = router;

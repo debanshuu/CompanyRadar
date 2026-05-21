@@ -141,7 +141,7 @@ async function analyzeWithGemini(company, news, searchData) {
   }
   `;
 
-  const models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+  const models = ['gemini-2.0-flash-lite', 'gemini-2.0-flash', 'gemini-2.5-flash'];
 
   for (const model of models) {
     for (let attempt = 1; attempt <= 3; attempt++) {
