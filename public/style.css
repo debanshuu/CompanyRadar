@@ -46,24 +46,20 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
+/*Creator Badge*/
 .creator-badge {
   position: fixed;
-  top: 20px;
-  right: 20px;
-
-  z-index: 9999;
-
-  padding: 10px 16px;
-  border-radius: 999px;
-
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  color: #c8f04a;
-  font-size: 14px;
+  bottom: 20px;
+  right: 28px;
+  font-size: 0.75rem;
   font-weight: 500;
+  color: var(--text3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  z-index: 50;
 }
 /* ── Header ────────────────────────────────── */
 .header {
