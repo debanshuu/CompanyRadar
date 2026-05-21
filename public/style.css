@@ -590,21 +590,7 @@ input::placeholder { color: var(--text3); }
 .hidden { display: none !important; }
 
 
-/*── Footer ──*/
-.footer {
-  position: fixed;
-  bottom: 20px;
-  right: 28px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--text3);
-  z-index: 50;
-}
 
-.footer strong {
-  font-weight: 600;
-  color: var(--text2);
-}
 
 /* ── Responsive ────────────────────────────── */
 @media (max-width: 768px) {
