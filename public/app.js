@@ -17,7 +17,9 @@ async function analyze() {
   try {
     const response = await fetch('/analyze', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' ,
+      'Authorization': `Bearer ${token}`
+    },
       body: JSON.stringify({ company })
     });
 
