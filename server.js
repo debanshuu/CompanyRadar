@@ -137,7 +137,7 @@ Return ONLY valid JSON.
 }
 `;
 
-  const models = [ 'gemini-3.1-flash-lite', 'gemini-1.5-flash'];
+  const models = ['gemini-2.5-flash', 'gemini-3.1-flash-lite', 'gemini-1.5-flash'];
 
   for (const model of models) {
     for (let attempt = 1; attempt <= 3; attempt++) {
@@ -154,18 +154,21 @@ Return ONLY valid JSON.
         return JSON.parse(text);
 
       } catch (error) {
-        const is503 = error.message?.includes('503') || error.message?.includes('UNAVAILABLE');
+        const isRetryable = error.message?.includes('503') || 
+                    error.message?.includes('UNAVAILABLE') ||
+                    error.message?.includes('429') ||
+                    error.message?.includes('RESOURCE_EXHAUSTED');
 
-        if (is503 && attempt < 3) {
-          const wait = 1000 * 2 ** (attempt - 1); // 1s, 2s
-          console.warn(`503 on ${model}, retrying in ${wait}ms...`);
-          await new Promise(res => setTimeout(res, wait));
-        } else if (is503) {
-          console.warn(`${model} exhausted, trying next model...`);
-          break; //try next model
-        } else {
-          throw error; //non-503 error, fail fast
-        }
+         if (isRetryable && attempt < 3) {
+           const wait = 1000 * 2 ** (attempt - 1);
+           console.warn(`Retryable error on ${model}, retrying in ${wait}ms...`);
+           await new Promise(res => setTimeout(res, wait));
+         } else if (isRetryable) {
+           console.warn(`${model} exhausted, trying next model...`);
+           break;
+         } else {
+           throw error;
+         }
       }
     }
   }
