@@ -1,4 +1,4 @@
-# CompanyRadar 🔍
+# CompanyRadar 
 ### AI-Powered Business Intelligence Platform
 
 A full-stack web application that generates instant business intelligence reports for any company — powered by Gemini AI with secure user authentication.
