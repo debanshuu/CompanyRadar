@@ -1,35 +1,23 @@
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendConfirmationEmail(name, email) {
-  console.log('Sending email to:', email);
-  console.log('Using EMAIL_USER:', process.env.EMAIL_USER);
-  console.log('EMAIL_PASS set:', !!process.env.EMAIL_PASS);
-
-  const info = await transporter.sendMail({
-    from: `"CompanyRadar" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: 'Welcome to CompanyRadar!',
-    html: `
-      <h2>Hi ${name}, welcome to CompanyRadar!</h2>
-      <p>Your account has been successfully created.</p>
-      <p>Start analyzing companies at <a href="https://companyradar.onrender.com">companyradar.onrender.com</a></p>
-    `
-  });
-
-  console.log('Email sent:', info.messageId);
+  try {
+    const { data, error } = await resend.emails.send({
+      from: 'CompanyRadar <onboarding@resend.dev>',
+      to: email,
+      subject: 'Welcome to CompanyRadar!',
+      html: `
+        <h2>Hi ${name}, welcome to CompanyRadar!</h2>
+        <p>Your account has been successfully created.</p>
+        <p>Start analyzing companies at <a href="https://companyradar.onrender.com">companyradar.onrender.com</a></p>
+      `
+    });
+    if (error) console.error('Resend error:', error);
+    else console.log('Email sent:', data.id);
+  } catch (err) {
+    console.error('Email failed:', err.message);
+  }
 }
 
 module.exports = { sendConfirmationEmail };
