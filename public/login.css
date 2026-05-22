@@ -83,7 +83,42 @@ body {
   letter-spacing: -0.01em;
   color: var(--text);
 }
+/* ── Header User ───────────────────────────── */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text2);
+}
+
+.logout-btn {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: auto;
+}
+
+.logout-btn:hover {
+  background: var(--border);
+  color: var(--text);
+}
 /* ── Card ──────────────────────────────────── */
 .auth-card {
   background: var(--surface);
