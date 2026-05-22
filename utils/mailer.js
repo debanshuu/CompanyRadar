@@ -15,7 +15,9 @@ const transporter = nodemailer.createTransport({
 
 async function sendConfirmationEmail(name, email) {
   console.log('Sending email to:', email);
-  
+  console.log('Using EMAIL_USER:', process.env.EMAIL_USER);
+  console.log('EMAIL_PASS set:', !!process.env.EMAIL_PASS);
+
   const info = await transporter.sendMail({
     from: `"CompanyRadar" <${process.env.EMAIL_USER}>`,
     to: email,
