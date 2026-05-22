@@ -1,7 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { sendConfirmationEmail } = require('../utils/mailer');
+const { sendConfirmationEmail } = require('../utils/email');
+
 const router = express.Router();
 
 // ── SIGNUP ──
@@ -10,15 +11,14 @@ router.post('/signup', async (req, res) => {
     const { name, username, email, password } = req.body;
 
     // Check if user already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'Email or username already taken.' });
+      return res.status(400).json({ error: 'Email already registered.' });
     }
 
     // Create new user
     const user = new User({ name, username, email, password });
     await user.save();
-    await sendConfirmationEmail(user.name, user.email);
 
     // Generate token
     const token = jwt.sign(
@@ -27,11 +27,17 @@ router.post('/signup', async (req, res) => {
       { expiresIn: '7d' }
     );
 
+    // Send response FIRST
     res.status(201).json({
       success: true,
       token,
       user: { name: user.name, username: user.username, email: user.email }
     });
+
+    // Email AFTER response — fire and forget
+    sendConfirmationEmail(user.name, user.email)
+      .then(() => console.log('Email sent'))
+      .catch(err => console.error('Email failed:', err.message));
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -46,13 +52,13 @@ router.post('/login', async (req, res) => {
     // Find user
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ error: 'Invalid email or password.' });
+      return res.status(400).json({ error: 'Invalid username or password.' });
     }
 
     // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid email or password.' });
+      return res.status(400).json({ error: 'Invalid username or password.' });
     }
 
     // Generate token
@@ -67,18 +73,10 @@ router.post('/login', async (req, res) => {
       token,
       user: { name: user.name, username: user.username, email: user.email }
     });
-    res.status(201).json({
-      success: true,
-      token,
-      user: { name: user.name, email: user.email }
-    });
 
-    // Fire and forget
-    sendConfirmationEmail(user.name, user.email)
-      .then(() => console.log('Email sent'))
-      .catch(err => console.error('Email failed:', err.message));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 module.exports = router;
