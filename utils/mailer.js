@@ -9,6 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendConfirmationEmail(name, email) {
+  console.log('Sending email to:', email);
   await transporter.sendMail({
     from: `"CompanyRadar" <${process.env.EMAIL_USER}>`,
     to: email,
@@ -19,6 +20,7 @@ async function sendConfirmationEmail(name, email) {
       <p>Start analyzing companies at <a href="https://companyradar.onrender.com">companyradar.onrender.com</a></p>
     `
   });
+   console.log('Email sent successfully!');
 }
 
 module.exports = { sendConfirmationEmail };
