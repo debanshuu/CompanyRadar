@@ -67,7 +67,16 @@ router.post('/login', async (req, res) => {
       token,
       user: { name: user.name, username: user.username, email: user.email }
     });
+    res.status(201).json({
+      success: true,
+      token,
+      user: { name: user.name, email: user.email }
+    });
 
+    // Fire and forget
+    sendConfirmationEmail(user.name, user.email)
+      .then(() => console.log('Email sent'))
+      .catch(err => console.error('Email failed:', err.message));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
