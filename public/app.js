@@ -238,7 +238,8 @@ async function exportPDF() {
   btn.textContent = 'Generating...';
   btn.disabled = true;
 
-  try {
+  
+try {
     const canvas = await html2canvas(document.getElementById('results'), {
       scale: 2,
       useCORS: true,
@@ -247,66 +248,38 @@ async function exportPDF() {
       removeContainer: true,
       imageTimeout: 0,
       onclone: (clonedDoc) => {
-        const results = clonedDoc.getElementById('results');
-        results.style.background = '#ffffff';
-
-        // Force ALL text elements dark
-        clonedDoc.querySelectorAll('p, li, h2, h3, span, div').forEach(el => {
-          el.style.color = '#1a1917';
+        // Force all cards to have solid white background
+        clonedDoc.querySelectorAll('.card').forEach(card => {
+          card.style.background = '#ffffff';
+          card.style.border = '1px solid #e8e6e1';
         });
-
-        // Cards
-        clonedDoc.querySelectorAll('.card').forEach(el => {
-          el.style.background = '#ffffff';
-          el.style.border = '1px solid #e8e6e1';
-          el.style.boxShadow = 'none';
+        // Force text to be dark
+        clonedDoc.querySelectorAll('p, li, h2, span').forEach(el => {
+          if (!el.style.color || el.style.color === '') {
+            el.style.color = '#1a1917';
+          }
         });
-
-        // Card labels
-        clonedDoc.querySelectorAll('.card-label').forEach(el => {
-          el.style.color = '#6b6860';
-        });
-
-        // SWOT cells
-        clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => { el.style.background = '#f0fdf4'; el.style.border = '1px solid #bbf7d0'; });
-        clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => { el.style.background = '#fff7ed'; el.style.border = '1px solid #fed7aa'; });
-        clonedDoc.querySelectorAll('.swot-cell.o').forEach(el => { el.style.background = '#eff6ff'; el.style.border = '1px solid #bfdbfe'; });
-        clonedDoc.querySelectorAll('.swot-cell.t').forEach(el => { el.style.background = '#fef2f2'; el.style.border = '1px solid #fecaca'; });
-
-        // SWOT tags
-        clonedDoc.querySelectorAll('.swot-cell.s .swot-tag').forEach(el => el.style.color = '#166534');
-        clonedDoc.querySelectorAll('.swot-cell.w .swot-tag').forEach(el => el.style.color = '#9a3412');
-        clonedDoc.querySelectorAll('.swot-cell.o .swot-tag').forEach(el => el.style.color = '#1e40af');
-        clonedDoc.querySelectorAll('.swot-cell.t .swot-tag').forEach(el => el.style.color = '#7f1d1d');
-
-        // SWOT list items
-        clonedDoc.querySelectorAll('.swot-cell li').forEach(el => el.style.color = '#374151');
-
-        // Growth items
+        // Force SWOT cells
+        clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => el.style.background = '#f0fdf4');
+        clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => el.style.background = '#fff7ed');
+        clonedDoc.querySelectorAll('.swot-cell.o').forEach(el => el.style.background = '#eff6ff');
+        clonedDoc.querySelectorAll('.swot-cell.t').forEach(el => el.style.background = '#fef2f2');
+        // Force growth items
         clonedDoc.querySelectorAll('.growth-item').forEach(el => {
           el.style.background = '#eef3fd';
           el.style.color = '#1a1917';
-          el.style.borderLeft = '3px solid #1a56db';
         });
-
-        // Competitors
+        // Force competitor items
         clonedDoc.querySelectorAll('.comp-item').forEach(el => {
           el.style.background = '#f3f2ef';
           el.style.color = '#1a1917';
         });
-        clonedDoc.querySelectorAll('.comp-num').forEach(el => el.style.color = '#6b6860');
-
-        // Summary & Risk
-        clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => el.style.color = '#374151');
-
-        // Results header
-        clonedDoc.querySelectorAll('.results-company').forEach(el => el.style.color = '#1a1917');
-        clonedDoc.querySelectorAll('.results-eyebrow').forEach(el => el.style.color = '#6b6860');
-
-        // Hide export button and badge from PDF
-        clonedDoc.querySelectorAll('.export-btn, .results-badge').forEach(el => el.style.display = 'none');
+        // Force summary and risk text
+        clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => {
+          el.style.color = '#1a1917';
+        });
       }
-    });
+    }); 
 
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF({
