@@ -11,14 +11,14 @@ A full-stack web application that generates instant business intelligence report
 
 Enter any company name and get a comprehensive BI report in ~8 seconds:
 
-- 📋 **Company Summary** — concise overview
-- 📊 **SWOT Analysis** — strengths, weaknesses, opportunities, threats
-- 🏢 **Competitor Map** — top direct competitors
-- 📈 **Growth Opportunities** — AI-identified expansion areas
-- ⚡ **Risk Assessment** — key business risks
-- 📉 **Stock Chart** — 10-day market performance (public companies)
-- 🕐 **Search History** — saved per user, with delete support
-- 📄 **PDF Export** — download full report as PDF
+- **Company Summary** — concise overview
+- **SWOT Analysis** — strengths, weaknesses, opportunities, threats
+- **Competitor Map** — top direct competitors
+- **Growth Opportunities** — AI-identified expansion areas
+- **Risk Assessment** — key business risks
+- **Stock Chart** — 10-day market performance (public companies)
+- **Search History** — saved per user, with delete support
+- **PDF Export** — download full report as PDF
 
 ---
 
