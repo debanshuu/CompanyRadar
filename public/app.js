@@ -229,6 +229,7 @@ function reAnalyze(company) {
 }
 
 //EXPORT PDF
+
 async function exportPDF() {
   const { jsPDF } = window.jspdf;
   const company = document.getElementById('resultsCompanyName').textContent;
@@ -241,7 +242,42 @@ async function exportPDF() {
     const canvas = await html2canvas(document.getElementById('results'), {
       scale: 2,
       useCORS: true,
-      backgroundColor: '#f8f7f4'
+      backgroundColor: '#ffffff',
+      logging: false,
+      removeContainer: true,
+      imageTimeout: 0,
+      onclone: (clonedDoc) => {
+        // Force all cards to have solid white background
+        clonedDoc.querySelectorAll('.card').forEach(card => {
+          card.style.background = '#ffffff';
+          card.style.border = '1px solid #e8e6e1';
+        });
+        // Force text to be dark
+        clonedDoc.querySelectorAll('p, li, h2, span').forEach(el => {
+          if (!el.style.color || el.style.color === '') {
+            el.style.color = '#1a1917';
+          }
+        });
+        // Force SWOT cells
+        clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => el.style.background = '#f0fdf4');
+        clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => el.style.background = '#fff7ed');
+        clonedDoc.querySelectorAll('.swot-cell.o').forEach(el => el.style.background = '#eff6ff');
+        clonedDoc.querySelectorAll('.swot-cell.t').forEach(el => el.style.background = '#fef2f2');
+        // Force growth items
+        clonedDoc.querySelectorAll('.growth-item').forEach(el => {
+          el.style.background = '#eef3fd';
+          el.style.color = '#1a1917';
+        });
+        // Force competitor items
+        clonedDoc.querySelectorAll('.comp-item').forEach(el => {
+          el.style.background = '#f3f2ef';
+          el.style.color = '#1a1917';
+        });
+        // Force summary and risk text
+        clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => {
+          el.style.color = '#1a1917';
+        });
+      }
     });
 
     const imgData = canvas.toDataURL('image/png');
@@ -259,11 +295,9 @@ async function exportPDF() {
     let heightLeft = imgHeight;
     let position = 0;
 
-    // First page
     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     heightLeft -= pageHeight;
 
-    // Add more pages if content is long
     while (heightLeft > 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
