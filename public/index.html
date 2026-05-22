@@ -17,6 +17,8 @@
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -119,9 +121,14 @@
           <p class="results-eyebrow">Intelligence Report</p>
           <h2 class="results-company" id="resultsCompanyName"></h2>
         </div>
-        <div class="results-badge">
-          <span class="badge-dot"></span>
-          Analysis complete
+        <div class="results-actions">
+          <button class="export-btn" onclick="exportPDF()">
+            ↓ Export PDF
+          </button>
+          <div class="results-badge">
+            <span class="badge-dot"></span>
+            Analysis complete
+          </div>
         </div>
       </div>
 
