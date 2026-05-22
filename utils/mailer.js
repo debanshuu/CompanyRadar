@@ -1,16 +1,22 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
 async function sendConfirmationEmail(name, email) {
   console.log('Sending email to:', email);
-  await transporter.sendMail({
+  
+  const info = await transporter.sendMail({
     from: `"CompanyRadar" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: 'Welcome to CompanyRadar!',
@@ -20,7 +26,8 @@ async function sendConfirmationEmail(name, email) {
       <p>Start analyzing companies at <a href="https://companyradar.onrender.com">companyradar.onrender.com</a></p>
     `
   });
-   console.log('Email sent successfully!');
+
+  console.log('Email sent:', info.messageId);
 }
 
 module.exports = { sendConfirmationEmail };
