@@ -160,3 +160,70 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') analyze();
   });
 });
+
+// ── HISTORY ──
+async function loadHistory() {
+  try {
+    const response = await fetch('/history', {
+      headers: { 'Authorization': `Bearer ${getToken()}` }
+    });
+    const data = await response.json();
+
+    const listEl = document.getElementById('historyList');
+
+    if (!data.searches || data.searches.length === 0) {
+      listEl.innerHTML = '<p class="history-empty">No searches yet.</p>';
+      return;
+    }
+
+    listEl.innerHTML = data.searches.map(s => `
+      <div class="history-item" id="hist-${s._id}">
+        <div class="history-item-info" onclick="reAnalyze('${s.company}')">
+          <span class="history-company">${s.company}</span>
+          <span class="history-date">${new Date(s.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+        </div>
+        <button class="history-delete" onclick="deleteHistory('${s._id}')" title="Delete">✕</button>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.error('History error:', err);
+  }
+}
+
+function toggleHistory() {
+  const sidebar = document.getElementById('historySidebar');
+  const overlay = document.getElementById('historyOverlay');
+  const isOpen = sidebar.classList.contains('open');
+
+  if (!isOpen) {
+    loadHistory(); // refresh every time it opens
+  }
+
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+async function deleteHistory(id) {
+  try {
+    await fetch(`/history/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${getToken()}` }
+    });
+    document.getElementById(`hist-${id}`).remove();
+
+    // Show empty message if no items left
+    const listEl = document.getElementById('historyList');
+    if (listEl.children.length === 0) {
+      listEl.innerHTML = '<p class="history-empty">No searches yet.</p>';
+    }
+  } catch (err) {
+    console.error('Delete error:', err);
+  }
+}
+
+function reAnalyze(company) {
+  document.getElementById('companyInput').value = company;
+  toggleHistory(); // close sidebar
+  analyze(); // run analysis
+}
