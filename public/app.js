@@ -153,7 +153,7 @@ function hideResults() {
 document.addEventListener('DOMContentLoaded', () => {
   const user = getUser();
   if (user && document.getElementById('userName')) {
-    document.getElementById('userName').textContent = user.name;
+    document.getElementById('userName').textContent = user.username;
   }
 
   document.getElementById('companyInput').addEventListener('keypress', (e) => {
