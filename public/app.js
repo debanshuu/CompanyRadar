@@ -238,8 +238,8 @@ async function exportPDF() {
   btn.textContent = 'Generating...';
   btn.disabled = true;
 
-  
-try {
+
+  try {
     const canvas = await html2canvas(document.getElementById('results'), {
       scale: 2,
       useCORS: true,
@@ -279,7 +279,7 @@ try {
           el.style.color = '#1a1917';
         });
       }
-    }); 
+    });
 
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF({
