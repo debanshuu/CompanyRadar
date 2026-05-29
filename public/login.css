@@ -1,4 +1,3 @@
-/* ── Reset ─────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -24,7 +23,6 @@
   --font-sans:  'Inter', system-ui, sans-serif;
 }
 
-/* ── Base ──────────────────────────────────── */
 html { scroll-behavior: smooth; }
 
 body {
@@ -53,7 +51,6 @@ body {
   box-shadow: var(--shadow);
   z-index: 50;
 }
-/* ── Auth Container ────────────────────────── */
 .auth-container {
   width: 100%;
   max-width: 420px;
@@ -63,7 +60,6 @@ body {
   gap: 28px;
 }
 
-/* ── Brand ─────────────────────────────────── */
 .auth-brand {
   display: flex;
   align-items: center;
@@ -83,7 +79,6 @@ body {
   letter-spacing: -0.01em;
   color: var(--text);
 }
-/* ── Header User ───────────────────────────── */
 .header-nav {
   display: flex;
   align-items: center;
@@ -119,7 +114,6 @@ body {
   background: var(--border);
   color: var(--text);
 }
-/* ── Card ──────────────────────────────────── */
 .auth-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -131,7 +125,6 @@ body {
   gap: 20px;
 }
 
-/* ── Title ─────────────────────────────────── */
 .auth-title {
   font-family: var(--font-serif);
   font-size: 1.8rem;
@@ -147,7 +140,6 @@ body {
   margin-top: -12px;
 }
 
-/* ── Form ──────────────────────────────────── */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -180,7 +172,6 @@ input:focus {
 
 input::placeholder { color: var(--text3); }
 
-/* ── Button ────────────────────────────────── */
 button {
   background: var(--accent);
   color: #fff;
@@ -200,7 +191,6 @@ button:hover { background: #1648c0; }
 button:active { transform: scale(0.99); }
 button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-/* ── Switch ────────────────────────────────── */
 .auth-switch {
   font-size: 0.85rem;
   color: var(--text2);
@@ -215,7 +205,6 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
 .auth-switch a:hover { text-decoration: underline; }
 
-/* ── Error / Success ───────────────────────── */
 .error {
   font-size: 0.85rem;
   color: var(--error);
@@ -234,7 +223,6 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
   border-radius: var(--radius-sm);
 }
 
-/* ── Utilities ─────────────────────────────── */
 .hidden { display: none !important; }
 
 /* ── Responsive ────────────────────────────── */
