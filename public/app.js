@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── HISTORY ──
+
 async function loadHistory() {
   try {
     const response = await fetch('/history', {
@@ -197,7 +197,7 @@ function toggleHistory() {
   const isOpen = sidebar.classList.contains('open');
 
   if (!isOpen) {
-    loadHistory(); // refresh every time it opens
+    loadHistory(); 
   }
 
   sidebar.classList.toggle('open');
@@ -212,7 +212,7 @@ async function deleteHistory(id) {
     });
     document.getElementById(`hist-${id}`).remove();
 
-    // Show empty message if no items left
+   
     const listEl = document.getElementById('historyList');
     if (listEl.children.length === 0) {
       listEl.innerHTML = '<p class="history-empty">No searches yet.</p>';
@@ -224,11 +224,9 @@ async function deleteHistory(id) {
 
 function reAnalyze(company) {
   document.getElementById('companyInput').value = company;
-  toggleHistory(); // close sidebar
-  analyze(); // run analysis
+  toggleHistory(); 
+  analyze(); 
 }
-
-//EXPORT PDF
 
 async function exportPDF() {
   const { jsPDF } = window.jspdf;
@@ -248,33 +246,27 @@ async function exportPDF() {
       removeContainer: true,
       imageTimeout: 0,
       onclone: (clonedDoc) => {
-        // Force all cards to have solid white background
         clonedDoc.querySelectorAll('.card').forEach(card => {
           card.style.background = '#ffffff';
           card.style.border = '1px solid #e8e6e1';
         });
-        // Force text to be dark
         clonedDoc.querySelectorAll('p, li, h2, span').forEach(el => {
           if (!el.style.color || el.style.color === '') {
             el.style.color = '#1a1917';
           }
         });
-        // Force SWOT cells
         clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => el.style.background = '#f0fdf4');
         clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => el.style.background = '#fff7ed');
         clonedDoc.querySelectorAll('.swot-cell.o').forEach(el => el.style.background = '#eff6ff');
         clonedDoc.querySelectorAll('.swot-cell.t').forEach(el => el.style.background = '#fef2f2');
-        // Force growth items
         clonedDoc.querySelectorAll('.growth-item').forEach(el => {
           el.style.background = '#eef3fd';
           el.style.color = '#1a1917';
         });
-        // Force competitor items
         clonedDoc.querySelectorAll('.comp-item').forEach(el => {
           el.style.background = '#f3f2ef';
           el.style.color = '#1a1917';
         });
-        // Force summary and risk text
         clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => {
           el.style.color = '#1a1917';
         });
