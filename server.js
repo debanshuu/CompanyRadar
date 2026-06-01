@@ -25,23 +25,18 @@ app.use('/analyze', limiter);
 app.use(express.json());
 app.use(express.static('public'));
 
-// ── CONNECT TO MONGODB ──
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected!'))
   .catch(err => console.error('MongoDB error:', err));
 
-// Gemini Client
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
-// ── ROUTES ──
 app.use('/auth', authRoutes);
 app.use('/history', historyRoutes);
 
-// ─────────────────────────────
-// FETCH NEWS
-// ─────────────────────────────
+
 async function fetchNews(company) {
   try {
     const response = await axios.get('https://newsapi.org/v2/everything', {
@@ -61,9 +56,6 @@ async function fetchNews(company) {
   }
 }
 
-// ─────────────────────────────
-// FETCH STOCK
-// ─────────────────────────────
 async function fetchStockData(ticker) {
   if (!ticker || ticker === 'N/A') return null;
 
@@ -94,9 +86,6 @@ async function fetchStockData(ticker) {
   }
 }
 
-// ─────────────────────────────
-// FETCH SEARCH
-// ─────────────────────────────
 async function fetchSearch(company) {
   try {
     const response = await axios.get('https://serpapi.com/search', {
@@ -116,9 +105,6 @@ async function fetchSearch(company) {
   }
 }
 
-// ─────────────────────────────
-// GEMINI ANALYSIS
-// ─────────────────────────────
 async function analyzeWithGemini(company, news, searchData) {
   const prompt = `
   You are a professional business intelligence analyst.
@@ -150,7 +136,7 @@ async function analyzeWithGemini(company, news, searchData) {
   }
   `;
 
-  const models = ['gemini-2.5-flash', 'gemini-2.0-flash-lite', 'gemini-2.0-flash' ];
+  const models = ['gemini-2.5-flash', 'gemini-2.0-flash-lite', 'gemini-2.0-flash'];
 
   for (const model of models) {
     for (let attempt = 1; attempt <= 3; attempt++) {
@@ -168,9 +154,9 @@ async function analyzeWithGemini(company, news, searchData) {
 
       } catch (error) {
         const isRetryable = error.message?.includes('503') ||
-                            error.message?.includes('UNAVAILABLE') ||
-                            error.message?.includes('429') ||
-                            error.message?.includes('RESOURCE_EXHAUSTED');
+          error.message?.includes('UNAVAILABLE') ||
+          error.message?.includes('429') ||
+          error.message?.includes('RESOURCE_EXHAUSTED');
 
         if (isRetryable && attempt < 3) {
           const wait = 1000 * 2 ** (attempt - 1);
@@ -189,11 +175,20 @@ async function analyzeWithGemini(company, news, searchData) {
   throw new Error('All Gemini models are currently unavailable. Please try again later.');
 }
 
-// ─────────────────────────────
-// ANALYZE ROUTE (protected)
-// ─────────────────────────────
-app.post('/analyze', auth, async (req, res) => {
+app.post('/analyze', async (req, res) => {
   const { company } = req.body;
+
+  // Optional auth — must be FIRST before anything else
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (token) {
+      req.user = require('jsonwebtoken').verify(token, process.env.JWT_SECRET);
+    } else {
+      req.user = null;
+    }
+  } catch (e) {
+    req.user = null;
+  }
 
   if (!company) {
     return res.status(400).json({ error: 'Company name is required' });
@@ -218,12 +213,14 @@ app.post('/analyze', auth, async (req, res) => {
       stockData = await fetchStockData(analysis.ticker);
     }
 
-    // Save to search history
-    await Search.create({
-      userId: req.user.userId,
-      company,
-      analysis
-    });
+    //Only save history if user is logged in
+    if (req.user) {
+      await Search.create({
+        userId: req.user.userId,
+        company,
+        analysis
+      });
+    }
 
     res.json({ success: true, company, analysis, stockData });
 
@@ -239,9 +236,6 @@ app.post('/analyze', auth, async (req, res) => {
   }
 });
 
-// ─────────────────────────────
-// TEST GEMINI
-// ─────────────────────────────
 app.get('/test-gemini', async (req, res) => {
   try {
     const response = await ai.models.generateContent({
@@ -254,9 +248,6 @@ app.get('/test-gemini', async (req, res) => {
   }
 });
 
-// ─────────────────────────────
-// START SERVER
-// ─────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

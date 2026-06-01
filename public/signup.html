@@ -70,7 +70,7 @@
   </div>
 
   <script>
-    // If already logged in, redirect to dashboard
+    //If already logged in, redirect to dashboard
     if (localStorage.getItem('token')) {
       window.location.href = '/';
     }
@@ -111,11 +111,11 @@
 
         if (!response.ok) throw new Error(data.error);
 
-        // Save token and user info
+        //Save token and user info
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
-        // Redirect to dashboard
+        //Redirect to dashboard
         window.location.href = '/';
 
       } catch (error) {
@@ -125,8 +125,6 @@
         btn.textContent = 'Create account';
       }
     }
-
-    // Allow Enter key
     document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') signup();

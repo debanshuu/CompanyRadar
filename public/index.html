@@ -4,11 +4,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    if (!localStorage.getItem('token')) {
-      window.location.replace('/login.html');
-    }
-  </script>
   <title>CompanyRadar</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,9 +33,16 @@
     <nav class="header-nav">
 
       <div class="header-user">
-        <button class="history-btn" onclick="toggleHistory()"> History</button>
+        <!--when logged in-->
+        <button class="history-btn" onclick="toggleHistory()">History</button>
         <span class="user-name"><span id="userName"></span></span>
         <button class="logout-btn" onclick="logout()">Log out</button>
+
+        <!--when logged out-->
+        <div id="authButtons" style="display:none; gap:10px; align-items:center;">
+          <a href="/login.html" class="login-link">Log in</a>
+          <a href="/signup.html" class="signup-link">Create Account</a>
+        </div>
       </div>
     </nav>
   </header>
@@ -122,13 +124,8 @@
           <h2 class="results-company" id="resultsCompanyName"></h2>
         </div>
         <div class="results-actions">
-          <button class="export-btn" onclick="exportPDF()">
-            ↓ Export PDF
-          </button>
-          <div class="results-badge">
-            <span class="badge-dot"></span>
-            Analysis complete
-          </div>
+          <button class="export-btn" onclick="exportPDF()">Export PDF</button>
+          
         </div>
       </div>
 
@@ -187,11 +184,7 @@
   </main>
 
 
-  <script>
-    if (!localStorage.getItem('token')) {
-      window.location.href = '/login.html';
-    }
-  </script>
+
   <script src="app.js"></script>
 </body>
 
