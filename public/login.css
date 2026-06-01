@@ -59,6 +59,13 @@ body {
   flex-direction: column;
   gap: 28px;
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
 .auth-brand {
   display: flex;
   align-items: center;

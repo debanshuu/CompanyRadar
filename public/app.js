@@ -162,6 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
 async function loadHistory() {
   try {
     const response = await fetch('/history', {
@@ -202,7 +209,17 @@ function toggleHistory() {
   const overlay = document.getElementById('historyOverlay');
   const isOpen = sidebar.classList.contains('open');
 
+<<<<<<< HEAD
   if (!isOpen) loadHistory();
+=======
+<<<<<<< HEAD
+  if (!isOpen) {
+    loadHistory(); 
+  }
+=======
+  if (!isOpen) loadHistory();
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
 
   sidebar.classList.toggle('open');
   overlay.classList.toggle('open');
@@ -216,6 +233,13 @@ async function deleteHistory(id) {
     });
     document.getElementById(`hist-${id}`).remove();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+   
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
     const listEl = document.getElementById('historyList');
     if (listEl.children.length === 0) {
       listEl.innerHTML = '<p class="history-empty">No searches yet.</p>';
@@ -227,8 +251,18 @@ async function deleteHistory(id) {
 
 function reAnalyze(company) {
   document.getElementById('companyInput').value = company;
+<<<<<<< HEAD
   toggleHistory();
   analyze();
+=======
+<<<<<<< HEAD
+  toggleHistory(); 
+  analyze(); 
+=======
+  toggleHistory();
+  analyze();
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
 }
 
 async function exportPDF() {
@@ -248,6 +282,7 @@ async function exportPDF() {
       removeContainer: true,
       imageTimeout: 0,
       onclone: (clonedDoc) => {
+<<<<<<< HEAD
         const results = clonedDoc.getElementById('results');
         results.style.background = '#ffffff';
 
@@ -259,6 +294,34 @@ async function exportPDF() {
           el.style.border = '1px solid #e8e6e1';
           el.style.boxShadow = 'none';
         });
+=======
+<<<<<<< HEAD
+        clonedDoc.querySelectorAll('.card').forEach(card => {
+          card.style.background = '#ffffff';
+          card.style.border = '1px solid #e8e6e1';
+        });
+        clonedDoc.querySelectorAll('p, li, h2, span').forEach(el => {
+          if (!el.style.color || el.style.color === '') {
+            el.style.color = '#1a1917';
+          }
+        });
+        clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => el.style.background = '#f0fdf4');
+        clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => el.style.background = '#fff7ed');
+        clonedDoc.querySelectorAll('.swot-cell.o').forEach(el => el.style.background = '#eff6ff');
+        clonedDoc.querySelectorAll('.swot-cell.t').forEach(el => el.style.background = '#fef2f2');
+=======
+        const results = clonedDoc.getElementById('results');
+        results.style.background = '#ffffff';
+
+        clonedDoc.querySelectorAll('p, li, h2, h3, span, div').forEach(el => {
+          el.style.color = '#1a1917';
+        });
+        clonedDoc.querySelectorAll('.card').forEach(el => {
+          el.style.background = '#ffffff';
+          el.style.border = '1px solid #e8e6e1';
+          el.style.boxShadow = 'none';
+        });
+>>>>>>> 482de63
         clonedDoc.querySelectorAll('.card-label').forEach(el => el.style.color = '#6b6860');
         clonedDoc.querySelectorAll('.swot-cell.s').forEach(el => { el.style.background = '#f0fdf4'; el.style.border = '1px solid #bbf7d0'; });
         clonedDoc.querySelectorAll('.swot-cell.w').forEach(el => { el.style.background = '#fff7ed'; el.style.border = '1px solid #fed7aa'; });
@@ -269,6 +332,10 @@ async function exportPDF() {
         clonedDoc.querySelectorAll('.swot-cell.o .swot-tag').forEach(el => el.style.color = '#1e40af');
         clonedDoc.querySelectorAll('.swot-cell.t .swot-tag').forEach(el => el.style.color = '#7f1d1d');
         clonedDoc.querySelectorAll('.swot-cell li').forEach(el => el.style.color = '#374151');
+<<<<<<< HEAD
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
         clonedDoc.querySelectorAll('.growth-item').forEach(el => {
           el.style.background = '#eef3fd';
           el.style.color = '#1a1917';
@@ -278,11 +345,23 @@ async function exportPDF() {
           el.style.background = '#f3f2ef';
           el.style.color = '#1a1917';
         });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => {
+          el.style.color = '#1a1917';
+        });
+=======
+>>>>>>> 482de63
         clonedDoc.querySelectorAll('.comp-num').forEach(el => el.style.color = '#6b6860');
         clonedDoc.querySelectorAll('.summary-text, .risk-text').forEach(el => el.style.color = '#374151');
         clonedDoc.querySelectorAll('.results-company').forEach(el => el.style.color = '#1a1917');
         clonedDoc.querySelectorAll('.results-eyebrow').forEach(el => el.style.color = '#6b6860');
         clonedDoc.querySelectorAll('.export-btn, .results-badge').forEach(el => el.style.display = 'none');
+<<<<<<< HEAD
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
+>>>>>>> 482de63
       }
     });
 
