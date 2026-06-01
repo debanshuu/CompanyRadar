@@ -59,7 +59,10 @@ body {
   flex-direction: column;
   gap: 28px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> eec5152 (Make dashboard public with optional auth)
 .auth-brand {
   display: flex;
   align-items: center;
@@ -225,7 +228,6 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
 .hidden { display: none !important; }
 
-/* ── Responsive ────────────────────────────── */
 @media (max-width: 480px) {
   .auth-card { padding: 24px; }
   .auth-container { padding: 16px; }

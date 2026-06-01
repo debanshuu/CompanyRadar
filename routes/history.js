@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// ── GET SEARCH HISTORY ──
 router.get('/', auth, async (req, res) => {
   try {
     const searches = await Search.find({ userId: req.user.userId })
@@ -18,7 +17,6 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// ── DELETE A SEARCH ──
 router.delete('/:id', auth, async (req, res) => {
   try {
     await Search.findOneAndDelete({
