@@ -70,12 +70,15 @@ npm install
 ```
 
 **Create a `.env` file:**
+
+```
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 GEMINI_API_KEY=your_key
 NEWS_API_KEY=your_key
 SERP_API_KEY=your_key
 TWELVE_DATA_API_KEY=your_key
+```
 
 **Run:**
 ```bash
